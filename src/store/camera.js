@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 
 class Camera {
     scale = Math.pow(10, -14);
-    currentScale = Math.pow(10, -12);
+    currentScale = Math.pow(10, -14);
     x = 0;
     y = 0;
     currentX = 0;
@@ -69,6 +69,10 @@ class Camera {
 
     fixfree() {
         this.isFixed = false
+    }
+
+    toggleForces() {
+        this.showForces = !this.showForces
     }
 }
 

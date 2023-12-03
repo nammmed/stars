@@ -30,8 +30,12 @@ const Star = observer(({star}) => {
 
     return (
         <div className="star" style={style} onClick={() => camera.fix(star.id)}>
-            {/*<div className="force" style={forceStyle} />
-            <div className="speed" style={speedStyle} />*/}
+            {camera.showForces &&
+                <>
+                    <div className="force" style={forceStyle}/>
+                    <div className="speed" style={speedStyle} />
+                </>
+            }
             {/*<span style={{color: '#fff', position: 'absolute'}}>{star.fx} : {star.fy}</span>*/}
         </div>
     );

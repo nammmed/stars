@@ -4,8 +4,8 @@ import camera from "./store/camera";
 import Controls from "./components/controls";
 
 const timeStep = 40;
-const starsCount = 1000;
-const timeScale = Math.pow(10, 20);
+const starsCount = 200;
+const timeScale = Math.pow(10, 19);
 export const G = 6.67 * Math.pow(10,-11) * timeScale;
 
 // export var stars = [
@@ -26,16 +26,23 @@ for (let i = 0; i <= starsCount-1; i++) {
     stars.push({
         id: i,
         m: Math.random() * (5.972 * Math.pow(10, 24) - 1) + 1,
-        x: (Math.random()*1800) * Math.pow(10,12) + 1,
-        y: (Math.random()*800) * Math.pow(10,12) + 1,
+        x: (Math.random()*100000) * Math.pow(10,12) + 1,
+        y: (Math.random()*100000) * Math.pow(10,12) + 1,
         vx: 0,//(Math.random()-0.5) * Math.pow(10, 11),
         vy: 0,//(Math.random()-0.5) * Math.pow(10, 11),
     })
 }
+stars[0].m = 1.98847 * Math.pow(10, 30)
 
 function App() {
     const [time, setTime] = useState(Date.now());
     const [maxWeight, setMaxWeight] = useState(0)
+    const [showForces, toggleForces] = useState(false)
+
+    const handleChange = () => {
+        toggleForces(!showForces);
+    };
+
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -57,13 +64,19 @@ function App() {
         <div className="app" onWheel={handleWheel} onMouseDown={handleMouseDown} onMouseMove={handleMouseMove}
              onMouseUp={handleMouseUp}>
             <div className="time">
-                {timeConverter(time)}<br/>
-                stars left: {stars.length}<br />
-                max weight: {maxWeight}
+                <p>{timeConverter(time)}</p>
+                <p>stars left: {stars.length}</p>
+                <p>max weight: {maxWeight}</p>
+                <label>
+                    <input type="checkbox" checked={showForces} onChange={handleChange} />
+                    Показывать силу и скорость
+                </label>
             </div>
-            {stars.map(star =>
-                <Star key={star.id} star={{...star}}/>
-            )}
+            <div className="stars-wrapper">
+                {stars.map(star =>
+                    <Star key={star.id} star={{...star}} />
+                )}
+            </div>
             <Controls />
         </div>
     );
@@ -79,8 +92,9 @@ function calcStars() {
             if (r < r1 || r < r2) {
                 //столкновение
                 stars[i].m += stars[j].m
-                stars[i].vx = (stars[j].vx*stars[j].m + stars[i].vx*stars[i].m) / (stars[i].m + stars[j].m)
-                stars[i].vy += (stars[j].vy*stars[j].m + stars[i].vy*stars[i].m) / (stars[i].m + stars[j].m)
+                stars[i].vx = (stars[j].vx * stars[j].m + stars[i].vx * stars[i].m) / (stars[i].m + stars[j].m)
+                stars[i].vy += (stars[j].vy * stars[j].m + stars[i].vy * stars[i].m) / (stars[i].m + stars[j].m)
+                //stars[j] = undefined;
                 stars.splice(j, 1);
             }
         }
