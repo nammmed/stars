@@ -1,6 +1,7 @@
 import React, {useMemo} from 'react';
 import {observer} from "mobx-react";
 import camera from "./../store/camera";
+import G from "./../App"
 
 const Star = observer(({star}) => {
     const {m, x, y} = star;
@@ -18,11 +19,20 @@ const Star = observer(({star}) => {
         }
     }, [left, top, r])
 
+    const forceStyle = {
+        width: Math.sqrt(star.fx ** 2 + star.fy ** 2) / G,
+        transform: `rotate(${Math.atan2(star.fy, star.fx)}rad)`
+    };
+    const speedStyle = {
+        width: Math.sqrt(star.vx ** 2 + star.vy ** 2) / G,
+        transform: `rotate(${Math.atan2(star.vy, star.vx)}rad)`
+    };
+
     return (
         <div className="star" style={style} onClick={() => camera.fix(star.id)}>
-            {/*<div className="force" style={forceStyle}>*/}
-            {/*</div>*/}
-            <span style={{color: '#fff', position: 'absolute'}}>{r}</span>
+            {/*<div className="force" style={forceStyle} />
+            <div className="speed" style={speedStyle} />*/}
+            {/*<span style={{color: '#fff', position: 'absolute'}}>{star.fx} : {star.fy}</span>*/}
         </div>
     );
 });

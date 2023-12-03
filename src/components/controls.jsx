@@ -6,14 +6,27 @@ import {stars} from "../App";
 const Controls = observer(() => {
     return (
         <div className="controls">
-            <button className="free" onClick={() => camera.fixfree()}>↮</button>
-            <button className="next" onClick={fixRandom}>↭</button>
+            <button className="free" onClick={() => camera.fixfree()} title="Отвязать">↮</button>
+            <button className="next" onClick={fixRandom} title="Привязать к случайной звезде">↭</button>
+            <button className="large" onClick={fixLarger} title="Привязать к самой крупной">↭</button>
         </div>
     );
 });
 
 function fixRandom() {
     camera.fix(array_rand(stars))
+}
+
+function fixLarger() {
+    let maxWeight = 0
+    let maxWeightIndex = 0
+    for (let i in stars) {
+        if (stars[i].m > maxWeight) {
+            maxWeightIndex = i
+            maxWeight = stars[i].m
+        }
+    }
+    camera.fix(maxWeightIndex)
 }
 
 export default Controls;

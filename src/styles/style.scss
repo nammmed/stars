@@ -44,6 +44,7 @@ body {
   height: 1px;
   background: green;
   transform-origin: left;
+  min-width: 30px;
   &::after {
     content: '';
     display: block;
@@ -70,5 +71,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+.speed {
+  @extend .force;
+  background: red;
+  &::after {
+    border-color: transparent transparent transparent red;
   }
 }
