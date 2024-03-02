@@ -4,20 +4,20 @@ import camera from "./../store/camera";
 import G from "./../App"
 
 const Star = observer(({star}) => {
-    const {m, x, y} = star;
-    let r = Math.round(Math.sqrt(m / Math.PI) * camera.scale)
-    if (r < 1) r = 1
-    let left = Math.round((x - camera.x) * camera.scale - r);
-    let top = Math.round((y - camera.y) * camera.scale - r);
+    const {m, x, y, r, name} = star;
+    let visible_radius = Math.round(r * camera.scale)
+    if (visible_radius < 1) visible_radius = 1
+    let left = Math.round((x - camera.x) * camera.scale - visible_radius);
+    let top = Math.round((y - camera.y) * camera.scale - visible_radius);
 
     const style = useMemo(() => {
         return {
             left: left,
             top: top,
-            width: r * 2,
-            height: r * 2,
+            width: visible_radius * 2,
+            height: visible_radius * 2,
         }
-    }, [left, top, r])
+    }, [left, top, visible_radius])
 
     const forceStyle = {
         width: Math.sqrt(star.fx ** 2 + star.fy ** 2) / G,
@@ -29,7 +29,7 @@ const Star = observer(({star}) => {
     };
 
     return (
-        <div className="star" style={style} onClick={() => camera.fix(star.id)}>
+        <div className="star" style={style} onClick={() => camera.fix(star.id)} title={name}>
             {camera.showForces &&
                 <>
                     <div className="force" style={forceStyle}/>

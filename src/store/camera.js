@@ -1,8 +1,8 @@
 import {makeAutoObservable} from "mobx";
 
 class Camera {
-    scale = Math.pow(10, -14);
-    currentScale = Math.pow(10, -14);
+    scale = Math.pow(10, -8);
+    currentScale = Math.pow(10, -8);
     x = 0;
     y = 0;
     currentX = 0;
